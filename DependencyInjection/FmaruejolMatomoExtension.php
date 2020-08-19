@@ -1,13 +1,13 @@
 <?php
 
-namespace Webfactory\Bundle\PiwikBundle\DependencyInjection;
+namespace Fmaruejol\Bundle\MatomoBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-class WebfactoryPiwikExtension extends Extension
+class FmaruejolMatomoExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -18,8 +18,8 @@ class WebfactoryPiwikExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        foreach (['disabled', 'piwik_host', 'tracker_path', 'site_id'] as $configParameterKey) {
-            $container->setParameter("webfactory_piwik.$configParameterKey", $config[$configParameterKey]);
+        foreach (['disabled', 'matomo_host', 'site_id'] as $configParameterKey) {
+            $container->setParameter("fmaruejol_matomo.$configParameterKey", $config[$configParameterKey]);
         }
     }
 }

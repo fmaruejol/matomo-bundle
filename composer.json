@@ -1,9 +1,15 @@
 {
-    "name": "webfactory/piwik-bundle",
+    "name": "fmaruejol/matomo-bundle",
     "type": "symfony-bundle",
     "description": "Symfony Bundle that adds a twig-function for the Matomo tracking code.",
     "license": "MIT",
     "authors": [
+        {
+            "name": "Florian Maruejol",
+            "email": "dev@maruejol.fr",
+            "homepage": "https://florian.maruejol.fr",
+            "role": "Developer"
+        },
         {
             "name": "webfactory GmbH",
             "email": "info@webfactory.de",
@@ -17,7 +23,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Webfactory\\Bundle\\PiwikBundle\\": ""
+            "Fmaruejol\\Bundle\\MatomoBundle\\": ""
         }
     },
     "require": {

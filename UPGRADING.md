@@ -1,6 +1,16 @@
 Upgrading notes
 ===============
 
+Version 3.0
+-----------
+
+* [BC break] Rename `piwik_code` to `matomo_code`
+* [BC break] Rename `piwik` to `matomo`
+* [BC break] Change bundle namespace from `\WebFactory\Bundle\PiwikBundle` to `\Fmaruejol\Bundle\MatomoBundle`
+* [BC break] Rename config root name from `webfactory_piwki` to `fmaruejol_matomo`
+* [BC break] Remove config key `tracker_path`
+* [BC break] Change Twig Extension public service id from `webfactory_piwik.twig_extension` to `fmaruejol_matomo.twig_extension`
+
 Version 2.2
 -----------
 

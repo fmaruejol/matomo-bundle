@@ -4,13 +4,12 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
 
-        <service id="Webfactory\Bundle\PiwikBundle\Twig\Extension" public="true">
-            <argument>%webfactory_piwik.disabled%</argument>
-            <argument>%webfactory_piwik.site_id%</argument>
-            <argument>%webfactory_piwik.piwik_host%</argument>
-            <argument>%webfactory_piwik.tracker_path%</argument>
+        <service id="Fmaruejol\Bundle\MatomoBundle\Twig\Extension" public="false">
+            <argument>%fmaruejol_matomo.disabled%</argument>
+            <argument>%fmaruejol_matomo.site_id%</argument>
+            <argument>%fmaruejol_matomo.matomo_host%</argument>
             <tag name="twig.extension" />
         </service>
-
+        <service id="fmaruejol_matomo.twig_extension" alias="Fmaruejol\Bundle\MatomoBundle\Twig\Extension" />
     </services>
 </container>

@@ -1,6 +1,6 @@
 <?php
 
-namespace Webfactory\Bundle\PiwikBundle\Twig;
+namespace Fmaruejol\Bundle\MatomoBundle\Twig;
 
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -20,74 +20,59 @@ class Extension extends AbstractExtension
     /**
      * @var string
      */
-    private $piwikHost;
-
-    /**
-     * @var string
-     */
-    private $trackerPath;
+    private $matomoHost;
 
     /**
      * @var array
      */
     private $paqs = [];
 
-    public function __construct(bool $disabled, string $siteId, string $piwikHost, string $trackerPath)
+    public function __construct(bool $disabled, string $siteId, string $matomoHost)
     {
         $this->disabled = $disabled;
         $this->siteId = $siteId;
-        $this->piwikHost = rtrim($piwikHost, '/');
-        $this->trackerPath = ltrim($trackerPath, '/');
+        $this->matomoHost = rtrim($matomoHost, '/');
     }
 
     public function getFunctions()
     {
         return [
-            new TwigFunction('piwik_code', [$this, 'piwikCode'], ['is_safe' => ['html']]),
-            new TwigFunction('piwik', [$this, 'piwikPush']),
+            new TwigFunction('matomo_code', [$this, 'matomoCode'], ['is_safe' => ['html']]),
+            new TwigFunction('matomo', [$this, 'matomoPush']),
         ];
     }
 
-    public function piwikPush(...$paqs)
+    public function matomoPush(...$paqs)
     {
         $this->paqs[] = $paqs;
     }
 
-    public function piwikCode()
+    public function matomoCode()
     {
         if ($this->disabled) {
-            return '<!-- Piwik is disabled due to webfactory_piwik.disabled=true in your configuration -->';
+            return '<!-- Piwik is disabled due to fmaruejol_matomo.disabled=true in your configuration -->';
         }
 
         $this->addDefaultApiCalls();
 
         $paq = json_encode($this->paqs);
 
-        $piwikCode = <<<EOT
-<!-- Piwik -->
+        return <<<EOT
+<!-- Matomo -->
 <script type="text/javascript">//<![CDATA[
-var _paq = (_paq||[]).concat({$paq});
+var _paq = (window._paq || []).concat({$paq});
 _paq.push(["setDoNotTrack", true]);
 (function() {
-    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://{$this->piwikHost}/";
-    _paq.push(["setTrackerUrl", u+"{$this->trackerPath}"]);
+    var u=(("https:" === document.location.protocol) ? "https" : "http") + "://{$this->matomoHost}/";
+    _paq.push(["setTrackerUrl", u+"matomo.php"]);
     _paq.push(["setSiteId", "{$this->siteId}"]);
-EOT;
-        if ('piwik.php' !== $this->trackerPath) {
-            $piwikCode .= <<<EOT
-    _paq.push(['setAPIUrl', u]);
-EOT;
-        }
-        $piwikCode .= <<<EOT
     var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
-    g.defer=true; g.async=true; g.src=u+"{$this->trackerPath}"; s.parentNode.insertBefore(g,s);
+    g.defer=true; g.async=true; g.src=u+"matomo.js"; s.parentNode.insertBefore(g,s);
 })();
 //]]></script>
-<noscript><p><img src="//{$this->piwikHost}/piwik.php?idsite={$this->siteId}&amp;rec=1" style="border:0;" alt="" /></p></noscript>
-<!-- End Piwik Code -->
+<noscript><p><img src="//{$this->matomoHost}/matomo.php?idsite={$this->siteId}&amp;rec=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Matomo Code -->
 EOT;
-
-        return $piwikCode;
     }
 
     private function addDefaultApiCalls()
